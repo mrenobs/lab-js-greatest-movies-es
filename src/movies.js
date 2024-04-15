@@ -9,7 +9,7 @@ console.log(directorList);
 // _Bonus_: It seems some of the directors had directed multiple movies so they will pop up multiple times in the array of directors.
 // How could you "clean" a bit this array and make it unified (without duplicates)?
 
-function getAllDirectors(movies1) {
+function getAllDirectors1(movies1) {
   const directors1 = movies1.map(movie => movie.director);
 
   const uniqueDirectors = new Set(directors1);
@@ -19,7 +19,7 @@ function getAllDirectors(movies1) {
   return uniqueDirectorsArray;
 }
 
-const uniqueDirectorsList = getAllDirectors(movies);
+const uniqueDirectorsList = getAllDirectors1(movies);
 
 console.log(uniqueDirectorsList);
 
@@ -32,27 +32,20 @@ const Quantity = howManyMovies(movies)
 console.log(`Steven Spielberg dirigió ${Quantity} peliculas de drama`);
 
 // Iteration 3: All scores average - Get the average of all scores with 2 decimals
-function scoresAverage(movies3){
-  const scores = movies3.filter(movie => movie.score);
-  const totalScores = scores;
-  const totalSum = scores.reduce((acc, score) => + score, 0);
-  
-  const average = totalSum / totalScores;
-  
-  const roundedAverage = average.toFixed[2];
-  return parseFloat(roundedAverage);
+function scoresAverage(movies) {
+  if (movies.length === 0) return 0;
+  const total = movies.reduce((acc, movie) => acc + (movie.score || 0), 0);
+  return parseFloat((total / movies.length).toFixed(2));
 }
-
 const averageScore = scoresAverage(movies);
 console.log(`El promedio de las puntuaciones es: ${averageScore}`);
 
 // Iteration 4: Drama movies - Get the average of Drama Movies
-function dramaMoviesScore(movies4) {
-  const dramaScore = movies4.filter (movies => movies.genre.includes(`Drama`));
-  const totalSum1 = movies.reduce((acc, movies)=> acc + movies.score, 0);
-  const average1 = totalSum1 / dramaScore;
-  const roundedAverage1 = average1.toFixed[2];
-  return parseFloat(roundedAverage1);
+function dramaMoviesScore(movies) {
+  const dramas = movies.filter(movie => movie.genre.includes('Drama'));
+  if (dramas.length === 0) return 0;
+  const totalDramaScore = dramas.reduce((acc, movie) => acc + movie.score, 0);
+  return parseFloat((totalDramaScore / dramas.length).toFixed(2));
 }
 const dramaAverageScore = dramaMoviesScore(movies);
 console.log(`La puntuacion de las peliculas de drama es: ${dramaAverageScore}`);
@@ -60,10 +53,10 @@ console.log(`La puntuacion de las peliculas de drama es: ${dramaAverageScore}`);
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
 function orderByYear(movieList) {
   const sortedMovies = movieList.sort((a, b) => {
-    if ( a.year !== navigator.year){
+    if ( a.year !== b.year){
       return a.year - b.year;
     } else {
-      return a.title.localCompare(b.title);
+      return a.title.localeCompare(b.title);
     }
 
   });
@@ -107,7 +100,7 @@ updatedMovies.forEach(movie => {
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
 function bestYearAvg(moviesArray3) {
   const yearStats = {};
-  movieList.forEach(movie => {
+  moviesArray3.forEach(movie => {
     const year = movie.year;
     const score = movie.score;
     if (!yearStats[year]){
